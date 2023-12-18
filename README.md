@@ -1,4 +1,4 @@
-# Data Engineering with *Snowflake* and *dbt*
+# Retail Data Analytics Project (Proof of Concept)
 
 A comprehensive set of data analytics pipelines for retail data, leveraging Snowflake and dbt. The project adheres to best practices such as data quality tests and code promotion between environments.
 
@@ -20,7 +20,15 @@ Three roles are defined in the project: Loader, Transformer, and Reporter. Each 
 
 The analytics database is populated by the Transformer, and each role uses its own warehouse.
 
-### Getting Started
+## Key Features:
+
+- Architecture:  Data transformation os organized in layers: Source, Staging, Intermediate, and Marts
+
+- Role-Based Access: Main roles: Loader, Transformer, and Reporter, each with specific responsibilities and access rights.
+
+- Dedicated Environments: development and production environments for a structured and controlled data workflow.
+
+## Getting Started
 
 1. Set up a Snowflake project that includes:
    - RAW and ANALYTICS databases.
