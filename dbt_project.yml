@@ -19,7 +19,7 @@ models:
   snowflake_dbt_cloud:
     staging:
       materialized: view
-      snowflake_warehouse: staging_wh
+      snowflake_warehouse: loading
     marts:
       materialized: table
       snowflake_warehouse: marts_wh
