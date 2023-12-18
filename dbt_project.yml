@@ -1,4 +1,4 @@
-name: 'snowflake-dbt-cloud'
+name: 'snowflake_dbt_cloud'
 version: '1.0.0'
 config-version: 2
 profile: 'default'
@@ -16,7 +16,7 @@ clean-targets:         # directories to be removed by `dbt clean`
   - "dbt_packages"
 
 models:
-  snowflake-dbt-cloud:
+  snowflake_dbt_cloud:
     staging:
       materialized: view
       snowflake_warehouse: staging_wh
