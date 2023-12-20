@@ -7,54 +7,45 @@ In this project, we use a sample retail dataset (TPC-H dataset from TPC Benchmar
 
 ## Architecture Overview
 
-![Architecture](assets/architecture.png)
-
 Files, folders, and dbt models are organized into layers: Staging, Intermediate, Marts.
-Tables and views in the staging and intermediate layers are stored in the "Raw" database,
-while objects in the Marts layer reside in the "Analytics" database.
+Tables and views in the Staging and Intermediate layers are stored in the Raw database,
+while objects in the Marts layer reside in the Analytics database.
 
-Three roles are defined in the project: Loader, Transformer, and Reporter.
-Each role has specific responsibilities and access rights:
+Three roles —Loader, Transformer, and Reporter, are defined in the project.
+Each one has specific responsibilities and access rights, as well as its own warehouse.
 
-- **Loader:** Responsible for loading data into the system.
-This role does not have access to analytics databases.
-
-- **Transformer:** Manages the transformation of data and populates the analytics databases.
-This role serves as the bridge between the raw and analytics databases.
-
-- **Reporter:** Exclusively focused on reporting and visualization. This role does not have access to the raw database.
-
-The analytics database is populated by the Transformer, and each role uses its own warehouse.
+![Architecture](assets/architecture.png)
 
 ## Key Features:
 
 - Data transformation organized in layers in the models directory
+  - **Staging**: Initial modular building blocks from source data
+  - **Intermediate**: Preparation of staging models, normalization of data to join
+  - **Marts**: Combination of previous pieces into a rich vision of information
 
-    **Staging** — initial modular building blocks from source data
-    **Intermediate** — preparation of staging models, normalization of data to join
-    **Marts** — combination of previous pieces into a rich vision of information
-
-- Two databases
-
-    **raw** Landing pad for everything extracted and loaded including external stages for data living in S3.
+- Separated databases
+  - **Raw**: Landing pad for everything extracted and loaded, including external stages for data.
     Access to this database is strictly permissioned.
-    **analytics** Tables and views accessible to analysts and reporting. Everything in analytics is created and owned by dbt.
+  - **Analytics**: Tables and views accessible to analysts and reporting. Everything in Analytics is created and owned by dbt.
 
-- Role-Based access, each role with specific responsibilities and access rights.
-    **loader**
-    Owns the tables in your raw database, and connects to the loading warehouse.
-    **transformer**
-    Has query permissions on tables in raw database and owns tables in the analytics database.
-    This is for dbt developers and scheduled jobs.
-    **reporter**
+- Role-based access, each role with specific responsibilities and access rights.
+  - **Loader**:
+    Responsible for loading data into the system.
+    Owns the tables in your raw database, and connects to the Loading warehouse.
+    This role does not have access to analytics databases.
+  - **Transformer**
+  Manages the transformation of data (by dbt developers and scheduled jobs) and populates the analytics databases. 
+  Has query permissions on tables in raw database and owns tables in the analytics database,
+  serving as the bridge between the raw and analytics databases.
+  - **Reporter**
+    This role is for data consumers, such as analysts and BI tools, it is exclusively focused on reporting and visualization.
     Has permissions on the analytics database only.
-    This role is for data consumers, such as analysts and BI tools.
-    These users will not have permissions to read data from the raw database.
+    This role does not have access to the raw database.
 
-- Separated warehouses. Each role uses a separated warehouse (*loading*, *transforming*, *reporting*)
+- Separated warehouses: Each role uses a separated warehouse (*loading*, *transforming*, *reporting*)
 as each stage can put significant strain on a warehouse and affect others users.
 
-- Dedicated Environments: development and production environments for a structured and controlled data workflow.
+- Dedicated Environments: **Development** and **Production** environments for a structured and controlled data workflow.
 
 ## Getting Started
 
